@@ -21,9 +21,10 @@
 </header>
 
 <main class="container main-content">
-  <aside class="filters-sidebar">
-    <h3>Filtrar Catálogo</h3>
-    
+<aside class="filters-sidebar">
+  <details>
+    <summary>Filtrar Catálogo</summary>
+
     <div class="filter-group">
       <label>Categoría</label>
       <select [(ngModel)]="filters.categoria" (change)="applyFilters()">
@@ -54,7 +55,8 @@
     </div>
 
     <button class="btn-reset" (click)="resetFilters()">Limpiar Filtros</button>
-  </aside>
+  </details>
+</aside>
 
   <section class="catalog-section">
     <div class="catalog-header">

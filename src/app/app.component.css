@@ -1,54 +1,35 @@
-
-.top-bar { background-color: #222; color: #fff; font-size: 0.85rem; padding: 8px 0; }
-.top-bar-content { display: flex; justify-content: space-between; align-items: center; }
-.wpp-top-link { color: #25d366; font-weight: 500; }
-.main-header { background-color: #ffffff; border-bottom: 1px solid #e0e0e0; padding: 25px 0; }
-.header-container { display: flex; justify-content: space-between; align-items: center; }
-.brand h1 { font-size: 2.2rem; letter-spacing: 4px; font-weight: 700; color: #1a1a1a; }
-.btn-wpp-header { background-color: #25d366; color: #fff; padding: 10px 18px; border-radius: 20px; font-weight: 600; text-decoration: none; }
-.main-content { display: flex; gap: 30px; margin-top: 30px; margin-bottom: 50px; }
-.filters-sidebar { width: 250px; flex-shrink: 0; background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-.filter-group { margin-bottom: 18px; }
-.filter-group label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
-.filter-group select, .filter-group input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-.btn-reset { width: 100%; padding: 10px; background: #f0f0f0; border: none; cursor: pointer; }
-.catalog-section { flex-grow: 1; }
-.products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.product-card { background: #fff; border-radius: 8px; overflow: hidden; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-.card-img-wrapper { position: relative; height: 320px; background: #f5f5f5; }
-.card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-.badge-promo { position: absolute; top: 10px; right: 10px; background: #e63946; color: #fff; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; }
-.card-info { padding: 15px; }
-.code { font-size: 0.75rem; color: #999; }
-.price-container { display: flex; gap: 8px; margin: 8px 0; }
-.old-price { text-decoration: line-through; color: #aaa; }
-.current-price { font-weight: 700; font-size: 1.15rem; }
-.pagination { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
-.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-.modal-content { background: #fff; width: 90%; max-width: 800px; border-radius: 8px; padding: 30px; position: relative; }
-.close-btn { position: absolute; top: 15px; right: 20px; border: none; background: none; font-size: 1.5rem; cursor: pointer; }
-.modal-body { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.main-image { height: 350px; }
-.main-image img { width: 100%; height: 100%; object-fit: cover; }
-.thumbnails { display: flex; gap: 8px; margin-top: 10px; }
-.thumbnails img { width: 60px; height: 60px; object-fit: cover; cursor: pointer; border: 1px solid #ccc; }
-.btn-wpp-modal { display: block; text-align: center; background: #25d366; color: #fff; padding: 12px; border-radius: 6px; font-weight: 700; text-decoration: none; margin: 15px 0; }
-.main-footer { background: #111; color: #ccc; padding: 30px 0; margin-top: 50px; }
-
-/* Paleta de Colores: Azul (#1E3A8A), Celeste (#0284C7 / #38BDF8), Fondo Claro (#F0F9FF) */
-
+/* ==========================================================================
+   1. VARIABLES Y ESTILOS GENERALES
+   ========================================================================== */
 body {
   font-family: 'Montserrat', sans-serif;
   color: #1E293B;
-  background-color: #F0F9FF; /* Celeste ultra claro de fondo */
+  background-color: #F0F9FF; /* Fondo celeste suave */
   line-height: 1.5;
+  margin: 0;
+  padding: 0;
 }
 
+/* ==========================================================================
+   2. ENCABEZADO Y BARRA SUPERIOR (HEADER & TOP BAR)
+   ========================================================================== */
 .top-bar {
   background-color: #0F172A; /* Azul noche */
   color: #E0F2FE;
   font-size: 0.85rem;
   padding: 8px 0;
+}
+
+.top-bar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wpp-top-link {
+  color: #25D366;
+  font-weight: 500;
+  text-decoration: none;
 }
 
 .main-header {
@@ -57,34 +38,339 @@ body {
   padding: 20px 0;
 }
 
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .brand h1 {
-  color: #1E3A8A; /* Azul profundo */
+  font-size: 2.2rem;
   letter-spacing: 3px;
+  font-weight: 700;
+  color: #1E3A8A; /* Azul profundo */
+  margin: 0;
 }
 
 .brand p {
   color: #0284C7; /* Celeste vibrante */
+  margin: 0;
 }
 
-/* Tarjetas y filtros */
-.filters-sidebar, .product-card {
+.btn-wpp-header {
+  background-color: #25D366;
+  color: #FFFFFF;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   3. ESTRUCTURA Y BARRA LATERAL DE FILTROS
+   ========================================================================== */
+.main-content {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.filters-sidebar {
+  width: 250px;
+  flex-shrink: 0;
   background: #FFFFFF;
+  padding: 20px;
+  border-radius: 8px;
   border: 1px solid #E0F2FE;
   box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
+  height: fit-content;
 }
 
-.btn-wpp-header, .btn-wpp-modal {
-  background-color: #25D366; /* WhatsApp verde original para contraste rápido */
-  color: #FFFFFF;
+/* Estilos de la cabecera colapsable del filtro en celular */
+.filters-sidebar summary {
+  font-weight: 700;
+  color: #1E3A8A;
+  font-size: 1rem;
+  cursor: pointer;
+  list-style: none; /* Quita la flecha feo por defecto de HTML */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Ícono de ajuste para el filtro */
+.filters-sidebar summary::after {
+  content: '⚙️ Filtrar';
+  font-size: 0.85rem;
+  background: #E0F2FE;
+  color: #0284C7;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.filter-group {
+  margin-bottom: 18px;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 0.85rem;
   font-weight: 600;
+  margin-bottom: 6px;
+  color: #475569;
+}
+
+.filter-group select,
+.filter-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.btn-reset {
+  width: 100%;
+  padding: 10px;
+  background: #E0F2FE;
+  color: #1E3A8A;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-reset:hover {
+  background: #BAE6FD;
+}
+
+/* ==========================================================================
+   4. GRILLA Y TARJETAS DE PRODUCTOS
+   ========================================================================== */
+.catalog-section {
+  flex-grow: 1;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.product-card {
+  background: #FFFFFF;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #E0F2FE;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.12);
+}
+
+.card-img-wrapper {
+  position: relative;
+  height: 240px;
+  background: #F8FAFC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ajusta la prenda sin deformarla */
+  padding: 5px;
 }
 
 .badge-promo {
-  background-color: #0284C7; /* Celeste para las etiquetas de oferta */
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #0284C7;
   color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
-.current-price, .current-price-lg {
+.card-info {
+  padding: 15px;
+}
+
+.code {
+  font-size: 0.75rem;
+  color: #94A3B8;
+}
+
+.price-container {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #94A3B8;
+  font-size: 0.85rem;
+}
+
+.current-price,
+.current-price-lg {
   color: #1E3A8A;
   font-weight: 700;
+  font-size: 1.15rem;
+}
+
+/* ==========================================================================
+   5. PAGINACIÓN, MODAL Y FOOTER
+   ========================================================================== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #FFFFFF;
+  width: 90%;
+  max-width: 800px;
+  border-radius: 8px;
+  padding: 30px;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748B;
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.main-image {
+  height: 350px;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnails {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.thumbnails img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 1px solid #CBD5E1;
+  border-radius: 4px;
+}
+
+.btn-wpp-modal {
+  display: block;
+  text-align: center;
+  background-color: #25D366;
+  color: #FFFFFF;
+  padding: 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+  margin: 15px 0;
+}
+
+.main-footer {
+  background: #0F172A;
+  color: #94A3B8;
+  padding: 30px 0;
+  margin-top: 50px;
+}
+
+/* ==========================================================================
+   6. ADAPTACIÓN RESPONSIVA (CELULARES Y TABLETS)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+  }
+
+  /* Filtro en Celular: Compacto y desplegable */
+  .filters-sidebar {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 15px;
+    background: #FFFFFF;
+    border-radius: 8px;
+  }
+
+  /* 2 Productos por fila prolijos en Celular */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .card-img-wrapper {
+    height: 180px; /* Altura perfecta para ver 4 productos simultáneamente en pantalla */
+  }
+
+  .card-info {
+    padding: 8px;
+  }
+
+  .card-info h4 {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    margin: 4px 0;
+  }
+
+  .current-price {
+    font-size: 1rem;
+  }
+
+  .modal-body {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .main-image {
+    height: 250px;
+  }
 }
