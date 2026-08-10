@@ -1,0 +1,31 @@
+[
+  {
+    "codigoInterno": "MN-001",
+    "descripcion": "Vestido Lino Soft Romántica",
+    "categoria": "Vestidos",
+    "color": "Blanco",
+    "talle": "M",
+    "precioNormal": 28000,
+    "precioDescuento": 23500,
+    "fotoPrincipal": "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&auto=format&fit=crop",
+    "fotoHover": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&auto=format&fit=crop",
+    "galeria": [
+      "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format&fit=crop"
+    ]
+  },
+  {
+    "codigoInterno": "MN-002",
+    "descripcion": "Blusa Seda Manga Larga",
+    "categoria": "Blusas",
+    "color": "Rosa",
+    "talle": "S",
+    "precioNormal": 19500,
+    "fotoPrincipal": "https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=600&auto=format&fit=crop",
+    "fotoHover": "https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=600&auto=format&fit=crop",
+    "galeria": [
+      "https://images.unsplash.com/photo-1564257631407-4deb1f99d992?w=800&auto=format&fit=crop"
+    ]
+  }
+]
