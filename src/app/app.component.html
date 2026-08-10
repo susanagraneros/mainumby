@@ -1,0 +1,171 @@
+
+<div class="top-bar">
+  <div class="container top-bar-content">
+    <span>✨ Colección Femenina Exclusiva</span>
+    <a [href]="'https://wa.me/' + productService.whatsappPhone" target="_blank" class="wpp-top-link">
+      💬 Contacto directo WhatsApp: +{{productService.whatsappPhone}}
+    </a>
+  </div>
+</div>
+
+<header class="main-header">
+  <div class="container header-container">
+    <div class="brand">
+      <h1>MAINUMBY</h1>
+      <p>Tienda de Ropa Femenina</p>
+    </div>
+    <a [href]="'https://wa.me/' + productService.whatsappPhone" target="_blank" class="btn-wpp-header">
+      Escribinos por WhatsApp
+    </a>
+  </div>
+</header>
+
+<main class="container main-content">
+  <aside class="filters-sidebar">
+    <h3>Filtrar Catálogo</h3>
+    
+    <div class="filter-group">
+      <label>Categoría</label>
+      <select [(ngModel)]="filters.categoria" (change)="applyFilters()">
+        <option value="">Todas</option>
+        <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Color</label>
+      <select [(ngModel)]="filters.color" (change)="applyFilters()">
+        <option value="">Todos</option>
+        <option *ngFor="let col of colors" [value]="col">{{col}}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Talle</label>
+      <select [(ngModel)]="filters.talle" (change)="applyFilters()">
+        <option value="">Todos</option>
+        <option *ngFor="let size of sizes" [value]="size">{{size}}</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Precio Máximo</label>
+      <input type="number" [(ngModel)]="filters.precioMax" (input)="applyFilters()" placeholder="Ej: 30000">
+    </div>
+
+    <button class="btn-reset" (click)="resetFilters()">Limpiar Filtros</button>
+  </aside>
+
+  <section class="catalog-section">
+    <div class="catalog-header">
+      <p>Mostrando {{pagedProducts.length}} de {{filteredProducts.length}} prendas</p>
+    </div>
+
+    <div class="products-grid" *ngIf="pagedProducts.length > 0; else noProducts">
+      <div 
+        class="product-card" 
+        *ngFor="let product of pagedProducts"
+        (mouseenter)="hoveredCardId = product.codigoInterno"
+        (mouseleave)="hoveredCardId = null"
+        (click)="openProductDetail(product)"
+      >
+        <div class="card-img-wrapper">
+          <img 
+            [src]="hoveredCardId === product.codigoInterno ? product.fotoHover : product.fotoPrincipal" 
+            [alt]="product.descripcion"
+          />
+          <span class="badge-promo" *ngIf="product.precioDescuento">OFERTA</span>
+        </div>
+        <div class="card-info">
+          <span class="code">{{product.codigoInterno}}</span>
+          <h4>{{product.descripcion}}</h4>
+          <div class="price-container">
+            <span class="old-price" *ngIf="product.precioDescuento">${{product.precioNormal}}</span>
+            <span class="current-price">${{product.precioDescuento || product.precioNormal}}</span>
+          </div>
+          <div class="attributes">
+            <span>Talle: {{product.talle}}</span> | <span>Color: {{product.color}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noProducts>
+      <div class="no-results">
+        <p>No se encontraron productos con los filtros seleccionados.</p>
+        <button (click)="resetFilters()">Ver todo el catálogo</button>
+      </div>
+    </ng-template>
+
+    <div class="pagination" *ngIf="totalPages > 1">
+      <button [disabled]="currentPage === 1" (click)="setPage(currentPage - 1)">Anterior</button>
+      <span>Página {{currentPage}} de {{totalPages}}</span>
+      <button [disabled]="currentPage === totalPages" (click)="setPage(currentPage + 1)">Siguiente</button>
+    </div>
+  </section>
+</main>
+
+<div class="modal-overlay" *ngIf="selectedProduct" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeModal()">✕</button>
+    
+    <div class="modal-body">
+      <div class="modal-gallery">
+        <div class="main-image">
+          <img [src]="activeGalleryImage" [alt]="selectedProduct.descripcion">
+        </div>
+        <div class="thumbnails" *ngIf="selectedProduct.galeria && selectedProduct.galeria.length > 0">
+          <img 
+            *ngFor="let img of selectedProduct.galeria" 
+            [src]="img" 
+            [class.active]="img === activeGalleryImage"
+            (click)="activeGalleryImage = img"
+          >
+        </div>
+      </div>
+
+      <div class="modal-details">
+        <span class="modal-code">Cód: {{selectedProduct.codigoInterno}}</span>
+        <h2>{{selectedProduct.descripcion}}</h2>
+        <p class="modal-category">Categoría: <strong>{{selectedProduct.categoria}}</strong></p>
+
+        <div class="modal-prices">
+          <span class="old-price-lg" *ngIf="selectedProduct.precioDescuento">
+            ${{selectedProduct.precioNormal}}
+          </span>
+          <span class="current-price-lg">
+            ${{selectedProduct.precioDescuento || selectedProduct.precioNormal}}
+          </span>
+        </div>
+
+        <div class="modal-specs">
+          <p><strong>Color:</strong> {{selectedProduct.color}}</p>
+          <p><strong>Talle:</strong> {{selectedProduct.talle}}</p>
+        </div>
+
+        <a [href]="productService.buildWhatsAppLink(selectedProduct)" target="_blank" class="btn-wpp-modal">
+          💬 Consultar / Comprar por WhatsApp
+        </a>
+
+        <div class="brand-contact-box">
+          <p><strong>MAINUMBY</strong></p>
+          <p>Atención personalizada por WhatsApp</p>
+          <p>Tel: +{{productService.whatsappPhone}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="main-footer">
+  <div class="container footer-content">
+    <div>
+      <h3>MAINUMBY</h3>
+      <p>Moda y tendencia en ropa femenina.</p>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <p>WhatsApp: +{{productService.whatsappPhone}}</p>
+    </div>
+  </div>
+</footer>
