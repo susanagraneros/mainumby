@@ -146,6 +146,53 @@ body {
   background: #BAE6FD;
 }
 
+/*  para filtros de botones */
+.destaque-buttons-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.btn-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-chip.active {
+  background-color: #007bff; /* Cambiar por tu color de marca */
+  color: white;
+  border-color: #007bff;
+}
+
+.sort-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Lo alinea a la derecha en PC */
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.sort-container label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.select-sort {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+}
+
 /* ==========================================================================
    4. GRILLA Y TARJETAS DE PRODUCTOS
    ========================================================================== */
@@ -219,7 +266,7 @@ body {
 }
 
 .old-price {
-  text-decoration: line-through;
+  text-decoration: none;
   color: #94A3B8;
   font-size: 0.85rem;
 }
@@ -241,51 +288,79 @@ body {
   margin-top: 30px;
 }
 
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: none;
+  background: #F1F5F9;
+  color: #1E293B;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 1010; /* Asegura que quede siempre por encima de fotos o textos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transition: background 0.2s, transform 0.1s;
+}
+
+/* ==========================================================================
+   MODAL / POPUP DE DETALLE (PC Y CELULAR)
+   ========================================================================== */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(3px);
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 12px;
 }
 
 .modal-content {
   background: #FFFFFF;
-  width: 90%;
+  width: 100%;
   max-width: 800px;
-  border-radius: 8px;
-  padding: 30px;
+  border-radius: 12px;
+  padding: 25px;
   position: relative;
-}
-
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  border: none;
-  background: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #64748B;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
 }
 
 .modal-body {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
+  gap: 25px;
+  align-items: start;
 }
 
+
+/* Contenedor de la foto principal del modal */
 .main-image {
-  height: 350px;
+  width: 100%;
+  height: 380px;
+  background: #F8FAFC;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .main-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* <-- GARANTIZA QUE LA PRENDA SE VEA COMPLETA SIN RECORTAR */
+  padding: 5px;
 }
 
 .thumbnails {
@@ -365,12 +440,258 @@ body {
     font-size: 1rem;
   }
 
+  .modal-content {
+    padding: 20px 15px;
+    max-height: 90vh; /* Ocupa casi todo el alto del celular si es necesario */
+  }
+
   .modal-body {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* Una sola columna: Foto arriba, detalles abajo */
     gap: 15px;
   }
 
   .main-image {
-    height: 250px;
+    height: 320px; /* Le damos buena altura vertical a la foto en el celular */
   }
+
+.modal-overlay {
+    padding: 8px; /* Aprovecha mejor la pantalla del celu */
+  }
+
+  .modal-content {
+    padding: 38px 15px 20px 15px; /* Agregamos 38px arriba para que el texto o foto no queden tapados por la X */
+    max-height: 90vh;
+  }
+
+  /* La X flotante fija en el celular */
+  .close-btn {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background: #0F172A; /* Color oscuro con X blanca para alto contraste */
+    color: #FFFFFF;
+    font-size: 1.5rem;
+  }
+
+  .modal-body {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }  
+  
+/* ==========================================================================
+   ESTILOS PARA EL MODAL DE ZOOM (LIGHTBOX PANTALLA COMPLETA)
+   ========================================================================== */
+
+/* Indicador de lupa sobre la foto principal del detalle */
+.main-image {
+  position: relative;
+  cursor: zoom-in;
+}
+
+.zoom-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(15, 23, 42, 0.75);
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+/* Fondo oscuro completo del zoom */
+.zoom-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 2000; /* Queda por encima de todo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+/* Botón cerrar (X) */
+.zoom-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: none;
+  font-size: 2rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2010;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.close-btn:hover, .close-btn:active {
+  background: #E2E8F0;
+  transform: scale(1.05);
+}
+
+.zoom-close-btn:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Contenedor de la foto ampliada */
+.zoom-content {
+  position: relative;
+  max-width: 95vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.zoom-content img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+}
+
+/* Contador de fotos (ej: 1 / 3) */
+.zoom-counter {
+  color: #CBD5E1;
+  font-size: 0.85rem;
+  margin-top: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 3px 12px;
+  border-radius: 10px;
+}
+
+/* Botones de navegación lateral (❮ y ❯) */
+.zoom-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: none;
+  font-size: 1.5rem;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2005;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.zoom-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.zoom-nav-btn.prev {
+  left: 15px;
+}
+
+.zoom-nav-btn.next {
+  right: 15px;
+}
+
+/* Ajuste fino para celulares */
+@media (max-width: 600px) {
+  .zoom-nav-btn {
+    width: 38px;
+    height: 38px;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.4); /* Mayor visibilidad sobre fotos claras */
+  }
+
+  .zoom-nav-btn.prev {
+    left: 8px;
+  }
+
+  .zoom-nav-btn.next {
+    right: 8px;
+  }
+
+  .sort-container {
+    justify-content: space-between; /* Ocupa todo el ancho en mobile */
+    width: 100%;
+  }
+  
+  .select-sort {
+    flex-grow: 1; /* El selector toma el espacio disponible para facilitar el toque */
+    max-width: 70%;
+  }
+}
+
+.modal-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+/* Línea 1: Precio Principal ($33.625 Precio) */
+.main-price .price-amount {
+  font-size: 1.25rem; /* Más grande */
+  font-weight: 800 !important;  /* Bien negrita */
+  color: #111111;
+}
+
+.main-price .price-label {
+  font-size: 1rem;
+  font-weight: 700 !important;  /* Negrita */
+  color: #111111;
+}
+
+/* Línea 2: Precio Secundario ($26.900 Pagando con...) */
+.secondary-price .price-amount,
+.secondary-price .price-label {
+  font-size: 0.95rem;
+  font-weight: 400;   /* Peso normal */
+  color: #333333;   /* Gris bien oscuro */
+}
+
+.secondary-price .price-amount {
+  font-weight: 600;   /* Ligeramente marcado para resaltar el monto */
+}
+
+/*  para filtros de botones */
+.destaque-buttons-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.btn-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-chip.active {
+  background-color: #007bff; /* Cambiar por tu color de marca */
+  color: white;
+  border-color: #007bff;
+}
+
+
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 
 export interface Product {
+  ocultar?  : boolean;
   codigoInterno: string;
   descripcion: string;
   categoria: string;
@@ -13,6 +14,8 @@ export interface Product {
   fotoPrincipal: string;
   fotoHover: string;
   galeria: string[];
+  detalle?: string;
+  destaque: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -38,16 +41,16 @@ export class ProductService {
   private csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQnsRvtT9Zqf0VHAImij-6w_qkvuUqeFhiJL8bS-PJFA3c1A031vsNCEG0kSkjXdGfpzBP04CAmK7lx/pub?gid=0&single=true&output=csv&t=' + new Date().getTime();
 
   public loadProducts(): void {
-    this.http.get(this.csvUrl, { responseType: 'text' }).subscribe({
-      next: (csvData) => {
-        const parsedProducts = this.parseCsv(csvData);
-        this.productsSubject.next(parsedProducts);
-      },
-      error: (err) => console.error('Error al cargar datos desde Google Sheets:', err)
-    });
-  }
+  this.http.get(this.csvUrl, { responseType: 'text' }).subscribe({
+    next: (csvData) => {
+      const parsedProducts = this.parseCsv(csvData);
+      this.productsSubject.next(parsedProducts);
+    },
+    error: (err) => console.error('Error al cargar datos desde Google Sheets:', err)
+  });
+}
 
-  private parseCsv(csvText: string): Product[] {
+private parseCsv(csvText: string): Product[] {
   const lines = csvText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
   if (lines.length <= 1) return [];
 
@@ -69,10 +72,21 @@ export class ProductService {
       row[header] = values[index] || '';
     });
 
+    const codigo = cleanStr(row.codigoInterno);
+    const desc = cleanStr(row.descripcion);
+
+    // IGNORAR FILAS VACÍAS: Si no hay código ni descripción, es una fila vacía de Sheets
+    if (!codigo && !desc) continue;
+
+    // Evaluar la columna 'ocultar' (Google Sheets envía "TRUE" o "FALSE" en exportaciones CSV)
+    const ocultarVal = cleanStr(row.ocultar).toUpperCase();
+    const estaOculto = ocultarVal === 'TRUE' || ocultarVal === 'SI' || ocultarVal === '1';
+
     const fotoPrin = cleanStr(row.fotoPrincipal);
     const fotoHov = cleanStr(row.fotoHover);
 
     products.push({
+      ocultar: estaOculto,
       codigoInterno: cleanStr(row.codigoInterno),
       descripcion: cleanStr(row.descripcion),
       categoria: cleanStr(row.categoria),
@@ -82,13 +96,15 @@ export class ProductService {
       precioDescuento: cleanStr(row.precioDescuento) ? Number(cleanStr(row.precioDescuento)) : undefined,
       fotoPrincipal: fotoPrin,
       fotoHover: fotoHov || fotoPrin,
-      galeria: row.galeria ? row.galeria.split(',').map((img: string) => cleanStr(img)).filter((x: string) => x) : []
+      galeria: row.galeria ? row.galeria.split(',').map((img: string) => cleanStr(img)).filter((x: string) => x) : [],
+      detalle: cleanStr(row.detalle) ? String(cleanStr(row.detalle)) : '',
+      destaque: cleanStr(row.destaque)
     });
   }
 
-  return products;
+  // Se retornan únicamente los productos que NO deben ocultarse
+  return products.filter(p => !p.ocultar);
 }
-
 
   public getCategories(): Observable<string[]> {
     return this.products$.pipe(map(p => [...new Set(p.map(x => x.categoria))]));
